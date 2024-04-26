@@ -18,18 +18,15 @@
 						<li class="nav-item  {% if 'about' in request.path %} active {% endif %} "><a class="nav-link" href="{%url 'about' %}">About Us</a></li>
 						<li class="nav-item {% if 'courses' in request.path %} active {% endif %}"><a class="nav-link" href="{%url 'courses'%}">Courses</a></li>
 						<li class="nav-item {% if 'teachers' in request.path %} active {% endif %}"><a class="nav-link" href="{%url 'teachers'%}">teachers</a></li>
+						<li class="nav-item {% if 'contact' in request.path %} active {% endif %}"><a class="nav-link" href="{%url 'contact'%}">teachers</a></li>
 
-						<li class="nav-item dropdown">
-							<div class="dropdown-menu" aria-labelledby="dropdown-a">
-								<a class="dropdown-item" href="course-grid-2.html">Course Grid 2 </a>
-								<a class="dropdown-item" href="course-grid-3.html">Course Grid 3 </a>
-								<a class="dropdown-item" href="course-grid-4.html">Course Grid 4 </a>
-							</div>
-						</li>
+						
 						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-                        <li><a class="hover-btn-new log orange" href="#" data-toggle="modal" data-target="#login"><span>Book Now</span></a></li>
+                        <li><a class="hover-btn-new log orange" href="{% url 'login' %}" ><span><i class="fa fa-sign-in">Login</span></a></li>
+						<li><a class="hover-btn-new log orange" href="{% url 'register' %}" ><span><i class="fa fa-user-plus">Register</span></a></li>
+
                     </ul>
 				</div>
 			</div>

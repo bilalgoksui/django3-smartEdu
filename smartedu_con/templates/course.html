@@ -41,8 +41,12 @@
 					
 					<div class="blog-author">
 						<div class="author-bio">
-							<h3 class="author_name"><a href="{% url 'teacher_detail' course.teacher.pk %}">{{course.teacher.name}}</a></h3>
-							<h5>CEO at <a href="#">SmartEDU</a></h5>
+							{% if course.teacher %}
+							<h3 class="author_name"><a href="{% url 'teacher_detail' course.teacher.pk %}">{{ course.teacher.name }}</a></h3>
+						{% else %}
+							<h3 class="author_name">Teacher not assigned</h3>
+						{% endif %}
+													<h5>CEO at <a href="#">SmartEDU</a></h5>
 							<p class="author_det">
 								{{course.teacher.description}}
 							</p>
