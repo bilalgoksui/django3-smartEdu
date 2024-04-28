@@ -24,9 +24,20 @@
 						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						{% if user.is_authenticated %}
+						<li><a class="hover-btn-new log orange mr-2" href="{% url 'dashboard' %}" ><span>{{user.username}}</span></a></li>
+						<li><a class="hover-btn-new log orange" href="javascript:{document.getElementById('logout').submit()}" ><span>LOGOUT</span></a>
+						
+							<form action ="{% url 'logout' %}" method='POST' id='logout'>
+								{% csrf_token %}
+								<input type='hidden' >
+						
+						
+						</li>
+						{% else %}
                         <li><a class="hover-btn-new log orange" href="{% url 'login' %}" ><span><i class="fa fa-sign-in">Login</span></a></li>
 						<li><a class="hover-btn-new log orange" href="{% url 'register' %}" ><span><i class="fa fa-user-plus">Register</span></a></li>
-
+							{% endif %}
                     </ul>
 				</div>
 			</div>
