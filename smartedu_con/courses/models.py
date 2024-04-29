@@ -1,5 +1,6 @@
 from django.db import models
 from teachers.models import Teacher
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -19,6 +20,8 @@ class Tag(models.Model):
     
 class Course(models.Model):
     teacher = models.ForeignKey(Teacher,null=True, on_delete=models.CASCADE)
+    
+    students = models.ManyToManyField(User, blank=True, related_name='courses_joined')
     
     name = models.CharField(max_length=50, unique=True)
     category = models.ForeignKey(Category,null=True,on_delete=models.DO_NOTHING)

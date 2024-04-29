@@ -16,11 +16,8 @@
                     
 					<div class="blog-author">
 						<div class="author-bio">
-							<h3 class="author_name"><a href="#">{{teacher.name}}</a></h3>
-							<h5>{{teacher.title}}<a href="#">SmartEDU</a></h5>
-							<p class="author_det">
-								{{teacher.description}}
-							</p>
+							<h3 class="author_name"><a>{{user.first_name}}{{user.last_name}}</a></h3>
+						
 						</div>
 					</div>
 					
@@ -30,6 +27,9 @@
             </div><!-- end row -->
         </div><!-- end container -->
         <div class="row"> 
+            <div class="col-lg-4 col-md-6 col-12">
+                    <h2 class="text-center my-5">Courses Enrolled By {{user.first_name}}</h2>
+                </div>
             {% for course in courses %}
             <div class="col-lg-4 col-md-6 col-12">
                 <div class="course-item">
@@ -46,7 +46,11 @@
                     
                     </div>
                     <div class="course-meta-bot">
-                      
+                        <ul>
+                            <li><i class="fa fa-calendar" aria-hidden="true"></i> {{course.date|date:"d M Y"}}</li>
+                            <li><i class="fa fa-book" aria-hidden="true"></i> {{course.teacher}}</li>
+        
+                        </ul>
                     </div>
                 </div>
             </div><!-- end col -->

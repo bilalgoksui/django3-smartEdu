@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\goksu\OneDrive\Belgeler\GitHub\django3-smartEdu\venv"
+VIRTUAL_ENV="C:\Users\bilg01tr\Documents\GitHub\django3-smartEdu\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
