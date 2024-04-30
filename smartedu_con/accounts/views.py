@@ -45,8 +45,6 @@ def register(request):
         
     return render(request,'register.html',{'form':form})
 
-
-
 def user_logout(request):
     logout(request)
     return redirect('index')
@@ -68,5 +66,13 @@ def enroll_the_course(request):
     course = Course.objects.get(id = course_id)
     user = User.objects.get(id=user_id)
     course.students.add(user)
+    
+    return redirect('dashboard')
+
+
+def release_the_course(request):
+    course = Course.objects.get(id = request.POST['course_id'])
+    user = User.objects.get(id=request.POST['user_id'])
+    course.students.remove(user)
     
     return redirect('dashboard')
