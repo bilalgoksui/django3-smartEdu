@@ -1,5 +1,8 @@
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render ,redirect
 from .models import Category, Course, Tag
+from .forms import CourseForm
+from django.contrib.auth.decorators import user_passes_test
 
 
 
@@ -38,26 +41,35 @@ def course_list(request,category_slug =None,tag_slug=None):
     return render(request,'courses.html', context)
 
 
-def course_detail(request,category_slug,course_id):
+def course_detail(request, category_slug, course_id):
     current_user = request.user
     
     course = Course.objects.get(category__slug=category_slug, id=course_id)
     courses = Course.objects.all().order_by('-date')
     categories = Category.objects.all()
     tags = Tag.objects.all()
+    
     if current_user.is_authenticated:
         enrolled_courses = current_user.courses_joined.all()
 
-    else :
+        if hasattr(current_user, 'teacher'):  
+            user_role = current_user.teacher.role
+        else:
+            user_role = None
+    else:
         enrolled_courses = courses
+        user_role = None
         
     context = {
-        'course':course,
-        'enrolled_courses':enrolled_courses,
-        'categories':categories,
-        'tags': tags
+        'course': course,
+        'enrolled_courses': enrolled_courses,
+        'categories': categories,
+        'tags': tags,
+        'teacher_role': user_role  
     }
-    return render(request,'course.html', context)
+    print("*********",user_role)
+    return render(request, 'course.html', context)
+
 
 
 def search(request):
@@ -73,6 +85,50 @@ def search(request):
     return render(request,'courses.html', context)
     
     
+    
+    
+def search(request):
+    courses = Course.objects.filter(name__contains = request.GET['search'])
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    
+    context = {
+        'courses':courses,
+        'categories':categories,
+        'tags': tags
+    }
+    return render(request,'courses.html', context)
+    
+
+
+
+def is_admin(user):
+    return user.is_authenticated and user.is_superuser
+
+@user_passes_test(is_admin)
+def create_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('courses')  
+    else:
+        form = CourseForm()
+    return render(request, 'create_course.html', {'form': form})
+
+
+# @user_passes_test(lambda user: user.is_authenticated and user.teacher.role == 'Admin')
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    
+    if not request.user.is_staff and course.teacher != request.user.teacher:
+        return HttpResponseForbidden("You are not authorized to delete this course.")
+    
+    if request.method == 'POST':
+        course.delete()
+        return redirect('courses')
+    else:
+        return redirect('course_detail', course_id=course_id)
 
 
 # def course_list(request):

@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate , login , logout
 
 from courses.models import Course
+from .models import Student
+from teachers.models import Teacher
 from .forms import LoginForm , RegisterForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -34,16 +36,13 @@ def user_login(request):
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-
         if form.is_valid():
-            form.save()
-            messages.success(request,"Account has been created,You can Login")
-            return redirect('login')
-        
+            user = form.save()
+            return redirect('dashboard')  
     else:
         form = RegisterForm()
-        
-    return render(request,'register.html',{'form':form})
+    return render(request, 'register.html', {'form': form})
+
 
 def user_logout(request):
     logout(request)
