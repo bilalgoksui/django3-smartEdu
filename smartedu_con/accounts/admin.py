@@ -3,5 +3,5 @@ from .models import Student
 
 
 @admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    prepopulated_fields={'first_name':('first_name',)}
+class AccountAdmin(admin.ModelAdmin):
+    list_display= ('user'),
